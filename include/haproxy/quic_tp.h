@@ -10,11 +10,20 @@
 #include <haproxy/quic_tp-t.h>
 
 void quic_transport_params_init(struct quic_transport_params *p, int server);
+
+int quic_transport_param_enc_int(unsigned char **buf,
+                                 const unsigned char *end,
+                                 uint64_t type, uint64_t val);
+
 int quic_transport_params_encode(unsigned char *buf,
                                  const unsigned char *end,
                                  struct quic_transport_params *p,
                                  const struct quic_version *chosen_version,
                                  int server);
+
+enum quic_tp_dec_err
+quic_transport_params_decode(struct quic_transport_params *p, int server,
+                             const unsigned char *buf, const unsigned char *end);
 
 int quic_transport_params_store(struct quic_conn *conn, int server,
                                 const unsigned char *buf,
